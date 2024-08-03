@@ -9,14 +9,22 @@ import {
   getPaginationRowModel,
   ColumnDef,
   flexRender,
+  FilterFn,
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MagnifyingGlassIcon, DropdownMenuIcon } from "@radix-ui/react-icons";
 import { User } from "@/types/user";
 import {
   getUsers,
   deleteUsers as deleteUsersAction,
 } from "@/lib/actions/userActions";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Slider } from "@/components/ui/slider";
 
 // Function to fetch users from the server
 const fetchUsers = async (): Promise<User[]> => {
@@ -30,11 +38,20 @@ const deleteUsers = async (ids: string[]) => {
   return deleteUsersAction(ids);
 };
 
+// Custom filter function for age range
+const ageRangeFilter: FilterFn<User> = (row, columnId, value) => {
+  const age = row.getValue(columnId) as number;
+  const [min, max] = value as [number, number];
+  return age >= min && age <= max;
+};
+
 export default function UserList() {
   // State to manage the global filter for the table
   const [globalFilter, setGlobalFilter] = useState("");
   // State to manage the selection of rows in the table
   const [rowSelection, setRowSelection] = useState({});
+  // State to manage the age range filter
+  const [ageRange, setAgeRange] = useState<[number, number]>([0, 100]);
   // Use the query client to manage queries
   const queryClient = useQueryClient();
 
@@ -96,6 +113,7 @@ export default function UserList() {
       {
         accessorKey: "age",
         header: "Age",
+        filterFn: ageRangeFilter,
       },
       {
         id: "actions",
@@ -126,6 +144,12 @@ export default function UserList() {
     state: {
       globalFilter,
       rowSelection,
+      columnFilters: [
+        {
+          id: "age",
+          value: ageRange,
+        },
+      ],
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -149,13 +173,60 @@ export default function UserList() {
       {/* Filter and action section */}
       <div className="flex justify-between items-center">
         <div className="flex w-full justify-between mb-4">
-          {/* Input field for filtering users */}
-          <Input
-            placeholder="Search users..."
-            value={globalFilter ?? ""}
-            onChange={(e) => setGlobalFilter(String(e.target.value))}
-            className="max-w-sm"
-          />
+          {/* Input field for filtering users with search icon */}
+          <div className="flex items-center w-1/3 relative">
+            <Input
+              placeholder="Search users..."
+              value={globalFilter ?? ""}
+              onChange={(e) => setGlobalFilter(String(e.target.value))}
+            />
+            <MagnifyingGlassIcon className="absolute right-2" />
+          </div>
+          {/* Age range filter */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="icon">
+                <DropdownMenuIcon className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-60">
+              <div className="space-y-4">
+                <h4 className="font-medium leading-none">Filter by Age</h4>
+                <div className="flex flex-col space-y-4">
+                  <div>
+                    <label htmlFor="minAge" className="text-sm font-medium">Minimum Age</label>
+                    <Slider
+                      id="minAge"
+                      min={0}
+                      max={100}
+                      step={1}
+                      value={[ageRange[0]]}
+                      onValueChange={(value) =>
+                        setAgeRange([value[0], ageRange[1]])
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="maxAge" className="text-sm font-medium">Maximum Age</label>
+                    <Slider
+                      id="maxAge"
+                      min={0}
+                      max={100}
+                      step={1}
+                      value={[ageRange[1]]}
+                      onValueChange={(value) =>
+                        setAgeRange([ageRange[0], value[0]])
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <span>Min: {ageRange[0]}</span>
+                  <span>Max: {ageRange[1]}</span>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
           {/* Buttons for adding and deleting users */}
           <div className="flex items-center gap-2">
             <Button>Add User</Button>
