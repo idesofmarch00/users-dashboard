@@ -45,7 +45,7 @@ export default function UserList() {
   const deleteMutation = useMutation({
     mutationFn: deleteUsers,
     onSuccess: () => {
-      queryClient.invalidateQueries(["users"]);
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       setRowSelection({});
     },
   });
