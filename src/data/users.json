@@ -1,11 +1,110 @@
 [
   {
-    "id": "2",
+    "id": "1",
     "first_name": "Jane",
-    "last_name": "Smith",
-    "email": "jane.smith@example.com",
-    "alternate_email": "jane.s@example.com",
-    "password": "hashed_password_2",
+    "last_name": "Doe",
+    "email": "jane.doe@example.com",
+    "alternate_email": "jane.d@example.com",
+    "password": "hashed_password_1",
     "age": 25
+  },
+  {
+    "id": "2",
+    "first_name": "John",
+    "last_name": "Smith",
+    "email": "john.smith@example.com",
+    "alternate_email": "john.s@example.com",
+    "password": "hashed_password_2",
+    "age": 30
+  },
+  {
+    "id": "3",
+    "first_name": "Emily",
+    "last_name": "Johnson",
+    "email": "emily.johnson@example.com",
+    "alternate_email": "emily.j@example.com",
+    "password": "hashed_password_3",
+    "age": 28
+  },
+  {
+    "id": "4",
+    "first_name": "Michael",
+    "last_name": "Williams",
+    "email": "michael.williams@example.com",
+    "alternate_email": "michael.w@example.com",
+    "password": "hashed_password_4",
+    "age": 32
+  },
+  {
+    "id": "5",
+    "first_name": "Sarah",
+    "last_name": "Brown",
+    "email": "sarah.brown@example.com",
+    "alternate_email": "sarah.b@example.com",
+    "password": "hashed_password_5",
+    "age": 29
+  },
+  {
+    "id": "6",
+    "first_name": "William",
+    "last_name": "Jones",
+    "email": "william.jones@example.com",
+    "alternate_email": "william.j@example.com",
+    "password": "hashed_password_6",
+    "age": 31
+  },
+  {
+    "id": "7",
+    "first_name": "Olivia",
+    "last_name": "Davis",
+    "email": "olivia.davis@example.com",
+    "alternate_email": "olivia.d@example.com",
+    "password": "hashed_password_7",
+    "age": 27
+  },
+  {
+    "id": "8",
+    "first_name": "Benjamin",
+    "last_name": "Miller",
+    "email": "benjamin.miller@example.com",
+    "alternate_email": "benjamin.m@example.com",
+    "password": "hashed_password_8",
+    "age": 33
+  },
+  {
+    "id": "9",
+    "first_name": "Hannah",
+    "last_name": "Wilson",
+    "email": "hannah.wilson@example.com",
+    "alternate_email": "hannah.w@example.com",
+    "password": "hashed_password_9",
+    "age": 26
+  },
+  {
+    "id": "10",
+    "first_name": "Alexander",
+    "last_name": "Moore",
+    "email": "alexander.moore@example.com",
+    "alternate_email": "alexander.m@example.com",
+    "password": "hashed_password_10",
+    "age": 34
+  },
+  {
+    "id": "11",
+    "first_name": "Emma",
+    "last_name": "Taylor",
+    "email": "emma.taylor@example.com",
+    "alternate_email": "emma.t@example.com",
+    "password": "hashed_password_11",
+    "age": 24
+  },
+  {
+    "id": "12",
+    "first_name": "Ethan",
+    "last_name": "Anderson",
+    "email": "ethan.anderson@example.com",
+    "alternate_email": "ethan.a@example.com",
+    "password": "hashed_password_12",
+    "age": 35
   }
 ]
