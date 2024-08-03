@@ -18,21 +18,27 @@ import {
   deleteUsers as deleteUsersAction,
 } from "@/lib/actions/userActions";
 
-// Replace the placeholder fetchUsers function with this:
+// Function to fetch users from the server
 const fetchUsers = async (): Promise<User[]> => {
+  // Call the getUsers function to fetch users
   return getUsers();
 };
 
-// Replace the placeholder deleteUsers function with this:
+// Function to delete users from the server
 const deleteUsers = async (ids: string[]) => {
+  // Call the deleteUsersAction function to delete users
   return deleteUsersAction(ids);
 };
 
 export default function UserList() {
+  // State to manage the global filter for the table
   const [globalFilter, setGlobalFilter] = useState("");
+  // State to manage the selection of rows in the table
   const [rowSelection, setRowSelection] = useState({});
+  // Use the query client to manage queries
   const queryClient = useQueryClient();
 
+  // Query to fetch users
   const {
     data: users = [],
     isLoading,
@@ -42,19 +48,24 @@ export default function UserList() {
     queryFn: fetchUsers,
   });
 
+  // Mutation to delete users
   const deleteMutation = useMutation({
     mutationFn: deleteUsers,
     onSuccess: () => {
+      // Invalidate the users query to refetch after deletion
       queryClient.invalidateQueries({ queryKey: ["users"] });
+      // Reset row selection after deletion
       setRowSelection({});
     },
   });
 
+  // Memoized columns for the table
   const columns = useMemo<ColumnDef<User>[]>(
     () => [
       {
         id: "select",
         header: ({ table }) => (
+          // Checkbox to select all rows
           <input
             type="checkbox"
             checked={table.getIsAllRowsSelected()}
@@ -62,6 +73,7 @@ export default function UserList() {
           />
         ),
         cell: ({ row }) => (
+          // Checkbox to select individual rows
           <input
             type="checkbox"
             checked={row.getIsSelected()}
@@ -88,6 +100,7 @@ export default function UserList() {
       {
         id: "actions",
         cell: ({ row }) => (
+          // Actions column with edit and delete buttons
           <div>
             <Button variant="outline" size="sm" className="mr-2">
               Edit
@@ -106,6 +119,7 @@ export default function UserList() {
     [deleteMutation]
   );
 
+  // Initialize the table with the columns and data
   const table = useReactTable({
     data: users,
     columns,
@@ -121,35 +135,46 @@ export default function UserList() {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  // Display loading message if data is being fetched
   if (isLoading) return <div>Loading...</div>;
+  // Display error message if an error occurs
   if (error) return <div>An error occurred</div>;
 
   return (
     <div>
+      {/* Header section */}
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold">Users</h2>
-        <Button>Add User</Button>
       </div>
-      <div className="flex justify-between mb-4">
-        <Input
-          placeholder="Search users..."
-          value={globalFilter ?? ""}
-          onChange={(e) => setGlobalFilter(String(e.target.value))}
-          className="max-w-sm"
-        />
-        <Button
-          variant="destructive"
-          onClick={() => {
-            const selectedIds = Object.keys(rowSelection).map(
-              (index) => users[parseInt(index)].id
-            );
-            deleteMutation.mutate(selectedIds);
-          }}
-          disabled={Object.keys(rowSelection).length === 0}
-        >
-          Delete Selected
-        </Button>
+      {/* Filter and action section */}
+      <div className="flex justify-between items-center">
+        <div className="flex w-full justify-between mb-4">
+          {/* Input field for filtering users */}
+          <Input
+            placeholder="Search users..."
+            value={globalFilter ?? ""}
+            onChange={(e) => setGlobalFilter(String(e.target.value))}
+            className="max-w-sm"
+          />
+          {/* Buttons for adding and deleting users */}
+          <div className="flex items-center gap-2">
+            <Button>Add User</Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                const selectedIds = Object.keys(rowSelection).map(
+                  (index) => users[parseInt(index)].id
+                );
+                deleteMutation.mutate(selectedIds);
+              }}
+              disabled={Object.keys(rowSelection).length === 0}
+            >
+              Delete Selected
+            </Button>
+          </div>
+        </div>
       </div>
+      {/* Table section */}
       <div className="rounded-md border">
         <table className="w-full">
           <thead>
@@ -181,8 +206,10 @@ export default function UserList() {
           </tbody>
         </table>
       </div>
+      {/* Pagination section */}
       <div className="flex items-center justify-between mt-4">
         <div>
+          {/* Display pagination information */}
           Showing{" "}
           {table.getState().pagination.pageIndex *
             table.getState().pagination.pageSize +
@@ -196,6 +223,7 @@ export default function UserList() {
           of {users.length} results
         </div>
         <div className="space-x-2">
+          {/* Buttons for navigating pagination */}
           <Button
             variant="outline"
             size="sm"
