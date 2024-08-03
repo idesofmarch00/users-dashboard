@@ -24,7 +24,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Slider } from "@/components/ui/slider";
+import { DualRangeSlider } from "@/components/ui/dual-range-slider";
 
 // Function to fetch users from the server
 const fetchUsers = async (): Promise<User[]> => {
@@ -191,38 +191,26 @@ export default function UserList() {
             </PopoverTrigger>
             <PopoverContent className="w-60">
               <div className="space-y-4">
-                <h4 className="font-medium leading-none">Filter by Age</h4>
+                <h4 className="font-medium leading-none">Filter</h4>
                 <div className="flex flex-col space-y-4">
                   <div>
-                    <label htmlFor="minAge" className="text-sm font-medium">Minimum Age</label>
-                    <Slider
-                      id="minAge"
+                    <label>Age</label>
+                    <DualRangeSlider
+                      value={ageRange}
+                      onValueChange={(value) => {
+                        if (value[0] <= value[1]) {
+                          setAgeRange([value[0], value[1]]);
+                        }
+                      }}
                       min={0}
                       max={100}
                       step={1}
-                      value={[ageRange[0]]}
-                      onValueChange={(value) =>
-                        setAgeRange([value[0], ageRange[1]])
-                      }
                     />
                   </div>
-                  <div>
-                    <label htmlFor="maxAge" className="text-sm font-medium">Maximum Age</label>
-                    <Slider
-                      id="maxAge"
-                      min={0}
-                      max={100}
-                      step={1}
-                      value={[ageRange[1]]}
-                      onValueChange={(value) =>
-                        setAgeRange([ageRange[0], value[0]])
-                      }
-                    />
+                  <div className="flex justify-between">
+                    <span>Min: {ageRange[0]}</span>
+                    <span>Max: {ageRange[1]}</span>
                   </div>
-                </div>
-                <div className="flex justify-between">
-                  <span>Min: {ageRange[0]}</span>
-                  <span>Max: {ageRange[1]}</span>
                 </div>
               </div>
             </PopoverContent>
