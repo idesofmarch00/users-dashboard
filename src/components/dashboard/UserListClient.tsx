@@ -6,8 +6,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   useReactTable,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
   ColumnDef,
   flexRender,
   FilterFn,
@@ -44,7 +42,7 @@ const ageRangeFilter: FilterFn<User> = (row, columnId, value) => {
   return age >= min && age <= max;
 };
 
-export default function UserList() {
+export default function UserListClient({ initialUsers }) {
   const [globalFilter, setGlobalFilter] = useState("");
   const [rowSelection, setRowSelection] = useState({});
   const [ageRange, setAgeRange] = useState<[number, number]>([0, 100]);
@@ -53,12 +51,13 @@ export default function UserList() {
   const queryClient = useQueryClient();
 
   const {
-    data: users = [],
+    data: users = initialUsers,
     isLoading,
     error,
   } = useQuery({
     queryKey: ["users"],
     queryFn: fetchUsers,
+    initialData: initialUsers,
   });
 
   const filteredData = useMemo(() => {
