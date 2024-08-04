@@ -44,14 +44,37 @@ export async function createUser(userData: Omit<User, "id">): Promise<User> {
   return newUser;
 }
 
-// Exporting a function to update a user in the data file
+// Function to update a user in the data file
 export async function updateUser(
   id: string,
   updatedUser: Partial<User>
 ): Promise<User | null> {
   const users = await readUsersFile();
   const userIndex = users.findIndex((u) => u.id === id);
+
   if (userIndex === -1) return null;
+
+  const existingUser = users[userIndex];
+
+  // If the password is being updated, hash it
+  if (updatedUser.password) {
+    const isPasswordMatch = await bcrypt.compare(
+      updatedUser.password,
+      existingUser.password
+    );
+
+    // Only hash the new password if it does not match the existing password
+    if (!isPasswordMatch) {
+      const saltRounds = 10;
+      updatedUser.password = await bcrypt.hash(
+        updatedUser.password,
+        saltRounds
+      );
+    } else {
+      // If passwords match, keep the existing password
+      delete updatedUser.password;
+    }
+  }
 
   users[userIndex] = { ...users[userIndex], ...updatedUser };
   await writeUsersFile(users);

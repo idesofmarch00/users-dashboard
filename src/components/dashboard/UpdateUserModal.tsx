@@ -83,7 +83,10 @@ export default function UpdateUserModal({
       data.password = userData.password;
     }
     try {
-      await updateUser.mutateAsync(data);
+      await updateUser.mutateAsync({
+        id: userData.id,
+        updatedUser: data,
+      });
       setIsOpen(false);
     } catch (error) {
       console.error("Failed to update user:", error);
@@ -118,7 +121,9 @@ export default function UpdateUserModal({
       }}
     >
       <DialogTrigger asChild>
-        <Button>Edit User</Button>
+        <Button variant="outline" size="sm" className="mr-2">
+          Edit
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

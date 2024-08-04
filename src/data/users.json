@@ -1,110 +1,11 @@
 [
   {
-    "id": "2",
-    "first_name": "John",
-    "last_name": "Smith",
-    "email": "john.smith@example.com",
-    "alternate_email": "john.s@example.com",
-    "password": "hashed_password_2",
-    "age": 30
-  },
-  {
-    "id": "3",
-    "first_name": "Emily",
-    "last_name": "Johnson",
-    "email": "emily.johnson@example.com",
-    "alternate_email": "emily.j@example.com",
-    "password": "hashed_password_3",
-    "age": 28
-  },
-  {
-    "id": "4",
-    "first_name": "Michael",
-    "last_name": "Williams",
-    "email": "michael.williams@example.com",
-    "alternate_email": "michael.w@example.com",
-    "password": "hashed_password_4",
-    "age": 32
-  },
-  {
-    "id": "5",
-    "first_name": "Sarah",
-    "last_name": "Brown",
-    "email": "sarah.brown@example.com",
-    "alternate_email": "sarah.b@example.com",
-    "password": "hashed_password_5",
-    "age": 29
-  },
-  {
-    "id": "6",
-    "first_name": "William",
-    "last_name": "Jones",
-    "email": "william.jones@example.com",
-    "alternate_email": "william.j@example.com",
-    "password": "hashed_password_6",
-    "age": 31
-  },
-  {
-    "id": "7",
-    "first_name": "Olivia",
-    "last_name": "Davis",
-    "email": "olivia.davis@example.com",
-    "alternate_email": "olivia.d@example.com",
-    "password": "hashed_password_7",
-    "age": 27
-  },
-  {
-    "id": "8",
-    "first_name": "Benjamin",
-    "last_name": "Miller",
-    "email": "benjamin.miller@example.com",
-    "alternate_email": "benjamin.m@example.com",
-    "password": "hashed_password_8",
-    "age": 33
-  },
-  {
-    "id": "9",
-    "first_name": "Hannah",
-    "last_name": "Wilson",
-    "email": "hannah.wilson@example.com",
-    "alternate_email": "hannah.w@example.com",
-    "password": "hashed_password_9",
-    "age": 26
-  },
-  {
-    "id": "10",
-    "first_name": "Alexander",
-    "last_name": "Moore",
-    "email": "alexander.moore@example.com",
-    "alternate_email": "alexander.m@example.com",
-    "password": "hashed_password_10",
-    "age": 34
-  },
-  {
-    "first_name": "Sahil",
-    "last_name": "Ahmed",
-    "email": "sa.idesofmarch@gmail.com",
-    "alternate_email": "ahmed.sahil60@gmail.com",
-    "age": 24,
-    "password": "$2b$10$pzul6U3A/tggxn.Udeyn8.Fa7YsdrlCf4D8yzpxrEZM42dEC.Gwku",
-    "id": "10"
-  },
-  {
-    "first_name": "Kashif",
-    "last_name": "Ahmed",
-    "email": "kashif@gmail.com",
-    "alternate_email": "kashifahmed@gmail.com",
-    "age": 46,
-    "password": "$2b$10$YuzSgiSc8h9LfM1X/zOE1.vmS3mR0pKwTtmUo1LGX58l2F0zGOVPS",
-    "id": "11"
-  },
-  {
-    "first_name": "Sahil",
+    "first_name": "Sahil2",
     "last_name": "Ahmed",
     "email": "sa.idesofmarch@gmail.com",
     "alternate_email": "sa.idesof23march@gmail.com",
     "age": 23,
-    "password": "$2b$10$ls3FlwRAKOtVQej0g1yj6e/430KRLwb21J7iUElLfnKlkCTx1Wfou",
-    "id": "12"
+    "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi",
+    "id": "1"
   }
 ]

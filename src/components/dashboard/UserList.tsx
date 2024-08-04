@@ -133,20 +133,22 @@ export default function UserList() {
     },
   });
 
-  //  <Button variant="outline" size="sm" className="mr-2">
-  //    Edit
-  //  </Button>;
-
   // Mutation to add users
   const updateUserMutation = useMutation({
-    mutationFn: updateUser,
+    mutationFn: ({
+      id,
+      updatedUser,
+    }: {
+      id: string;
+      updatedUser: Partial<User>;
+    }) => updateUser(id, updatedUser),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setRowSelection({});
       toast.success("User updated successfully");
     },
-    onError: () => {
-      toast.error("Failed to update user");
+    onError: (error) => {
+      toast.error(`Failed to update user: ${error.message}`);
     },
   });
 
@@ -193,10 +195,9 @@ export default function UserList() {
           <div>
             <UpdateUserModal
               userData={row.original}
-              updateUser={() =>
-                updateUserMutation.mutate(row.original.id, row.original as any)
-              }
+              updateUser={updateUserMutation}
             />
+
             <Button
               variant="destructive"
               size="sm"
