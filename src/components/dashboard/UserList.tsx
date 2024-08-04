@@ -128,8 +128,8 @@ export default function UserList() {
       setRowSelection({});
       toast.success("User added successfully");
     },
-    onError: () => {
-      toast.error("Failed to add user");
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 

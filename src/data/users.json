@@ -16,5 +16,23 @@
     "age": 25,
     "password": "$2b$10$78d7RxglWXV2hejdcQiWK.mKatmuv553N2lZiwKMX38WqHKN25VU.",
     "id": "2"
+  },
+  {
+    "first_name": "sSahil",
+    "last_name": "Ahmed",
+    "email": "sa.idessofmarch@gmail.com",
+    "alternate_email": "sa.idesof232march@gmail.com",
+    "age": 232323,
+    "password": "$2b$10$IxRP7U5bWIcBKcUXUpBqluBN6M0LejJRanPZeyuIFxvsqUCtFrPma",
+    "id": "3"
+  },
+  {
+    "first_name": "Sahasdasil",
+    "last_name": "Asdsahmed",
+    "email": "sa.idesofsadsamarch@gmail.com",
+    "alternate_email": "sa.idesofasdsamarch@gmail.com",
+    "age": 23,
+    "password": "$2b$10$CLgqD8Ur83rF77CWn90RKe0KuPbemygZcIZY2shEIeKU3Z7ajXOxm",
+    "id": "4"
   }
 ]

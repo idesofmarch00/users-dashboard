@@ -1,9 +1,11 @@
 "use server";
+//dependencies
+import toast, { Toaster } from "react-hot-toast";
 import bcrypt from "bcrypt";
-import { UserFormData } from "@/lib/schemas/userSchema";
 // Importing necessary modules for file operations and path manipulation
 import fs from "fs/promises";
 import path from "path";
+
 // Importing the User type definition
 import { User } from "../../types/user";
 
@@ -28,11 +30,21 @@ export async function getUsers(): Promise<User[]> {
 }
 
 // Exporting a function to create a new user and add them to the data file
-export async function createUser(userData: Omit<User, "id">): Promise<User> {
+export async function createUser(
+  userData: Omit<User, "id">
+): Promise<User | null | undefined> {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
 
   const users = await readUsersFile();
+
+  // Check if a user with the same email or name already exists
+  const existingUser = users.find((user) => user.email === userData.email);
+
+  if (existingUser) {
+    throw new Error("User already exists with the same email");
+  }
+
   const newUser = {
     ...userData,
     password: hashedPassword,
