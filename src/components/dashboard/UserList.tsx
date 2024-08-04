@@ -252,7 +252,7 @@ export default function UserList() {
 
           <div className="flex items-center gap-2">
             {/* Button for add user */}
-            <AddUserModal addUser={addUserMutation} />
+            <AddUserModal addUser={addUserMutation as any} />
 
             {/* Button for deleting users */}
             <Button
