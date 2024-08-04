@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema, UserFormData } from "@/lib/schemas/userSchema";
+import { User } from "@/types/user";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +19,7 @@ import { z } from "zod";
 
 interface UpdateUserModalProps {
   updateUser: UseMutationResult<any, unknown, UserFormData, unknown>;
-  userData: UserFormData;
+  userData: User;
 }
 
 export default function UpdateUserModal({

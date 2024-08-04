@@ -195,7 +195,7 @@ export default function UserList() {
           <div>
             <UpdateUserModal
               userData={row.original}
-              updateUser={updateUserMutation}
+              updateUser={updateUserMutation as any}
             />
 
             <Button

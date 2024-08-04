@@ -7,5 +7,14 @@
     "age": 23,
     "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi",
     "id": "1"
+  },
+  {
+    "first_name": "Sahil",
+    "last_name": "Ahmed",
+    "email": "sa.idesofmarch@gmail.com",
+    "alternate_email": "sa.idesof3march@gmail.com",
+    "age": 25,
+    "password": "$2b$10$78d7RxglWXV2hejdcQiWK.mKatmuv553N2lZiwKMX38WqHKN25VU.",
+    "id": "2"
   }
 ]

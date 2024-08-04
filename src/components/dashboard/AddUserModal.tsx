@@ -1,7 +1,18 @@
+// react imports
 import { useState } from "react";
+// Dependencies
+import { z } from "zod";
+import { UseMutationResult } from "@tanstack/react-query";
+import { Eye, EyeOff } from "lucide-react";
+
+// Actions and utils
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+// Types
 import { userSchema, UserFormData } from "@/lib/schemas/userSchema";
+
+// Component imports
 import {
   Dialog,
   DialogContent,
@@ -12,16 +23,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UseMutationResult } from "@tanstack/react-query";
-import { Eye, EyeOff } from "lucide-react";
 
+// Define the interface for AddUserModalProps
 interface AddUserModalProps {
-  addUser: UseMutationResult<any, unknown, UserFormData, unknown>;
+  addUser: UseMutationResult<any, unknown, UserFormData, unknown>; // addUser mutation result
 }
 
+// Define the AddUserModal component
 export default function AddUserModal({ addUser }: AddUserModalProps) {
+  // State for modal visibility and password visibility
   const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Initialize useForm with userSchema for validation
   const {
     register,
     handleSubmit,
@@ -31,9 +45,12 @@ export default function AddUserModal({ addUser }: AddUserModalProps) {
     resolver: zodResolver(userSchema),
   });
 
+  // Function to handle form submission
   const onSubmit = async (data: UserFormData) => {
     try {
+      // Call the addUser mutation with the form data
       await addUser.mutateAsync(data);
+      // Close the modal and reset the form after successful submission
       setIsOpen(false);
       reset();
     } catch (error) {
@@ -41,16 +58,18 @@ export default function AddUserModal({ addUser }: AddUserModalProps) {
     }
   };
 
+  // Function to toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  // Render the AddUserModal component
   return (
     <Dialog
       open={isOpen}
       onOpenChange={() => {
         setIsOpen(!isOpen);
-        reset();
+        reset(); // Reset the form when modal is closed
       }}
     >
       <DialogTrigger asChild>
@@ -61,6 +80,7 @@ export default function AddUserModal({ addUser }: AddUserModalProps) {
           <DialogTitle>Add New User</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Form fields for user data */}
           <div>
             <Label htmlFor="first_name">First Name</Label>
             <Input id="first_name" {...register("first_name")} />
@@ -97,7 +117,7 @@ export default function AddUserModal({ addUser }: AddUserModalProps) {
             />
             {errors.alternate_email && (
               <p className="text-red-500">
-                {(errors.alternate_email.message as string) || "Error}"}
+                {(errors.alternate_email.message as string) || "Error"}
               </p>
             )}
           </div>
