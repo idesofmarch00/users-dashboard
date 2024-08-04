@@ -20,9 +20,11 @@ import {
   getUsers,
   deleteUsers as deleteUsersAction,
   createUser,
+  updateUser,
 } from "@/lib/actions/userActions";
 import { AgeRangeFilter } from "./AgeRangeFilter";
 import AddUserModal from "./AddUserModal";
+import UpdateUserModal from "./UpdateUserModal";
 import toast, { Toaster } from "react-hot-toast";
 
 // Function to fetch users from the server
@@ -131,6 +133,23 @@ export default function UserList() {
     },
   });
 
+  //  <Button variant="outline" size="sm" className="mr-2">
+  //    Edit
+  //  </Button>;
+
+  // Mutation to add users
+  const updateUserMutation = useMutation({
+    mutationFn: updateUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      setRowSelection({});
+      toast.success("User updated successfully");
+    },
+    onError: () => {
+      toast.error("Failed to update user");
+    },
+  });
+
   const columns = useMemo<ColumnDef<User>[]>(
     () => [
       {
@@ -172,9 +191,12 @@ export default function UserList() {
         id: "actions",
         cell: ({ row }) => (
           <div>
-            <Button variant="outline" size="sm" className="mr-2">
-              Edit
-            </Button>
+            <UpdateUserModal
+              userData={row.original}
+              updateUser={() =>
+                updateUserMutation.mutate(row.original.id, row.original as any)
+              }
+            />
             <Button
               variant="destructive"
               size="sm"
@@ -186,7 +208,7 @@ export default function UserList() {
         ),
       },
     ],
-    [deleteMutation]
+    [deleteMutation, updateUserMutation]
   );
 
   const tableOptions = useMemo(

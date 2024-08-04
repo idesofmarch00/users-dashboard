@@ -39,8 +39,6 @@ export async function createUser(userData: Omit<User, "id">): Promise<User> {
     id: (users.length + 1).toString(),
   };
 
-  console.log("New user added:", newUser);
-
   users.push(newUser);
   await writeUsersFile(users);
   return newUser;
