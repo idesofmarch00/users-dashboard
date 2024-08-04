@@ -19,13 +19,7 @@ import {
   getUsers,
   deleteUsers as deleteUsersAction,
 } from "@/lib/actions/userActions";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { DualRangeSlider } from "@/components/ui/dual-range-slider";
-
+import { AgeRangeFilter } from "./AgeRangeFilter";
 // Function to fetch users from the server
 const fetchUsers = async (): Promise<User[]> => {
   // Call the getUsers function to fetch users
@@ -183,38 +177,7 @@ export default function UserList() {
             <MagnifyingGlassIcon className="absolute right-2" />
           </div>
           {/* Age range filter */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="icon">
-                <DropdownMenuIcon className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-60">
-              <div className="space-y-4">
-                <h4 className="font-medium leading-none">Filter</h4>
-                <div className="flex flex-col space-y-4">
-                  <div>
-                    <label>Age</label>
-                    <DualRangeSlider
-                      value={ageRange}
-                      onValueChange={(value) => {
-                        if (value[0] <= value[1]) {
-                          setAgeRange([value[0], value[1]]);
-                        }
-                      }}
-                      min={0}
-                      max={100}
-                      step={1}
-                    />
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Min: {ageRange[0]}</span>
-                    <span>Max: {ageRange[1]}</span>
-                  </div>
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
+          <AgeRangeFilter ageRange={ageRange} setAgeRange={setAgeRange} />
           {/* Buttons for adding and deleting users */}
           <div className="flex items-center gap-2">
             <Button>Add User</Button>
