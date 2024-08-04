@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
+import { debounce } from "lodash";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   useReactTable,
@@ -13,7 +14,7 @@ import {
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MagnifyingGlassIcon, DropdownMenuIcon } from "@radix-ui/react-icons";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { User } from "@/types/user";
 import {
   getUsers,
@@ -47,6 +48,9 @@ export default function UserList() {
   const [rowSelection, setRowSelection] = useState({});
   // State to manage the age range filter
   const [ageRange, setAgeRange] = useState<[number, number]>([0, 100]);
+  // State to manage the current page
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageSize = 10;
   // Use the query client to manage queries
   const queryClient = useQueryClient();
 
@@ -59,6 +63,54 @@ export default function UserList() {
     queryKey: ["users"],
     queryFn: fetchUsers,
   });
+
+  // Memoize the filtered data
+  const filteredData = useMemo(() => {
+    return users.filter((user) => {
+      const matchesAgeRange = user.age >= ageRange[0] && user.age <= ageRange[1];
+      const matchesGlobalFilter = 
+        globalFilter === "" ||
+        Object.values(user).some(
+          (value) => 
+            typeof value === "string" && 
+            value.toLowerCase().includes(globalFilter.toLowerCase())
+        );
+      return matchesAgeRange && matchesGlobalFilter;
+    });
+  }, [users, ageRange, globalFilter]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+  const paginatedData = useMemo(() => {
+    const start = currentPage * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage]);
+
+  // Debounce the setAgeRange function
+  const debouncedSetAgeRange = useCallback(
+    (newRange: [number, number]) => {
+      debounce((range: [number, number]) => {
+        setAgeRange(range);
+      }, 50)(newRange);
+    },
+    [setAgeRange]
+  );
+  const handleRowSelectionChange = useCallback(
+    (updater: any) => {
+      setRowSelection((prev) => updater(prev));
+    },
+    [setRowSelection]
+  );
+
+  const debouncedSetGlobalFilter = debounce((query: string) => {
+    setGlobalFilter(query);
+  }, 50);
+  const handleGlobalFilterChange = useCallback(
+    (query: string) => {
+      debouncedSetGlobalFilter(query);
+    },
+    [debouncedSetGlobalFilter]
+  );
 
   // Mutation to delete users
   const deleteMutation = useMutation({
@@ -87,6 +139,7 @@ export default function UserList() {
         cell: ({ row }) => (
           // Checkbox to select individual rows
           <input
+            id={`select-${row.id}`}
             type="checkbox"
             checked={row.getIsSelected()}
             onChange={row.getToggleSelectedHandler()}
@@ -132,27 +185,25 @@ export default function UserList() {
     [deleteMutation]
   );
 
-  // Initialize the table with the columns and data
-  const table = useReactTable({
-    data: users,
-    columns,
-    state: {
-      globalFilter,
-      rowSelection,
-      columnFilters: [
-        {
-          id: "age",
-          value: ageRange,
-        },
-      ],
-    },
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onGlobalFilterChange: setGlobalFilter,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-  });
+  // Memoize the table options
+  const tableOptions = useMemo(
+    () => ({
+      data: paginatedData,
+      columns,
+      state: {
+        rowSelection,
+      },
+      enableRowSelection: true,
+      onRowSelectionChange: handleRowSelectionChange,
+      getCoreRowModel: getCoreRowModel(),
+      manualPagination: true,
+      pageCount: totalPages,
+    }),
+    [paginatedData, columns, rowSelection, handleRowSelectionChange, totalPages]
+  );
+
+  // Use the memoized options to create the table
+  const table = useReactTable(tableOptions);
 
   // Display loading message if data is being fetched
   if (isLoading) return <div>Loading...</div>;
@@ -165,20 +216,27 @@ export default function UserList() {
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold">Users</h2>
       </div>
+
       {/* Filter and action section */}
       <div className="flex justify-between items-center">
         <div className="flex w-full justify-between mb-4">
           {/* Input field for filtering users with search icon */}
           <div className="flex items-center w-1/3 relative">
             <Input
+              id="user-search"
               placeholder="Search users..."
               value={globalFilter ?? ""}
-              onChange={(e) => setGlobalFilter(String(e.target.value))}
+              onChange={(e) => handleGlobalFilterChange(String(e.target.value))}
             />
             <MagnifyingGlassIcon className="absolute right-2" />
           </div>
+
           {/* Age range filter */}
-          <AgeRangeFilter ageRange={ageRange} setAgeRange={setAgeRange} />
+          <AgeRangeFilter
+            ageRange={ageRange}
+            setAgeRange={debouncedSetAgeRange}
+          />
+
           {/* Buttons for adding and deleting users */}
           <UserActionButtons
             onAddUser={() => {
@@ -194,6 +252,7 @@ export default function UserList() {
           />
         </div>
       </div>
+
       {/* Table section */}
       <div className="rounded-md border">
         <table className="w-full">
@@ -218,7 +277,16 @@ export default function UserList() {
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="px-4 py-2">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    {cell.column.id === 'select' ? (
+                      <input
+                        id={`select-${row.id}`}
+                        type="checkbox"
+                        checked={row.getIsSelected()}
+                        onChange={row.getToggleSelectedHandler()}
+                      />
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
                   </td>
                 ))}
               </tr>
@@ -226,37 +294,28 @@ export default function UserList() {
           </tbody>
         </table>
       </div>
+
       {/* Pagination section */}
       <div className="flex items-center justify-between mt-4">
         <div>
-          {/* Display pagination information */}
-          Showing{" "}
-          {table.getState().pagination.pageIndex *
-            table.getState().pagination.pageSize +
-            1}{" "}
-          to{" "}
-          {Math.min(
-            (table.getState().pagination.pageIndex + 1) *
-              table.getState().pagination.pageSize,
-            users.length
-          )}{" "}
-          of {users.length} results
+          Showing {currentPage * pageSize + 1} to{" "}
+          {Math.min((currentPage + 1) * pageSize, filteredData.length)} of{" "}
+          {filteredData.length} results
         </div>
         <div className="space-x-2">
-          {/* Buttons for navigating pagination */}
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+            disabled={currentPage === 0}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))}
+            disabled={currentPage === totalPages - 1}
           >
             Next
           </Button>
