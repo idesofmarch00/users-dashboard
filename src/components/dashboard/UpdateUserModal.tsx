@@ -97,11 +97,18 @@ export default function UpdateUserModal({
     } else {
       data.password = userData.password;
     }
+
+    type UpdateUserPayload = {
+      id: string;
+    } & UserFormData;
+
+    const payload: UpdateUserPayload = {
+      id: userData.id,
+      ...data,
+    };
+
     try {
-      await updateUser.mutateAsync({
-        id: userData.id,
-        updatedUser: data,
-      });
+      await updateUser.mutateAsync(payload);
       setIsOpen(false);
     } catch (error) {
       console.error("Failed to update user:", error);

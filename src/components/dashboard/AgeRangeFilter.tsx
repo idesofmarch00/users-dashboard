@@ -37,7 +37,6 @@ export function AgeRangeFilter({
             <h4 className="font-medium">Filter</h4>
             <Button
               variant="ghost"
-              size="xs"
               onClick={resetFilter}
               className="border rounded-xl px-2 py-1 text-xs"
             >

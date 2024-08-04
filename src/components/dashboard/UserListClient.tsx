@@ -42,7 +42,11 @@ const ageRangeFilter: FilterFn<User> = (row, columnId, value) => {
   return age >= min && age <= max;
 };
 
-export default function UserListClient({ initialUsers }) {
+interface UserListClientProps {
+  initialUsers: User[];
+}
+
+export default function UserListClient({ initialUsers }: UserListClientProps) {
   const [globalFilter, setGlobalFilter] = useState("");
   const [rowSelection, setRowSelection] = useState({});
   const [ageRange, setAgeRange] = useState<[number, number]>([0, 100]);
