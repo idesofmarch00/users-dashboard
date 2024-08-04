@@ -79,23 +79,5 @@
     "alternate_email": "alexander.m@example.com",
     "password": "hashed_password_10",
     "age": 34
-  },
-  {
-    "id": "11",
-    "first_name": "Emma",
-    "last_name": "Taylor",
-    "email": "emma.taylor@example.com",
-    "alternate_email": "emma.t@example.com",
-    "password": "hashed_password_11",
-    "age": 24
-  },
-  {
-    "first_name": "Sahil",
-    "last_name": "Ahmed",
-    "email": "sa.idesofmarch@gmail.com",
-    "alternate_email": "sa.idesofmarch@gm4ail.com",
-    "age": 23,
-    "password": "$2b$10$LBoqQoK/ACBikbfsi9ARhOKH1WXg.80rccYrHRjcD4HIdXxIbFHYW",
-    "id": "11"
   }
 ]

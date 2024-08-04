@@ -233,22 +233,26 @@ export default function UserList() {
       {/* Filter and action section */}
       <div className="flex justify-between items-center">
         <div className="flex w-full justify-between mb-4">
-          {/* Input field for filtering users with search icon */}
-          <div className="flex items-center w-1/3 relative">
-            <Input
-              id="user-search"
-              placeholder="Search users..."
-              value={globalFilter ?? ""}
-              onChange={(e) => handleGlobalFilterChange(String(e.target.value))}
+          <div className="flex items-center gap-4 w-full">
+            {/* Input field for filtering users with search icon */}
+            <div className="flex items-center w-1/3 relative">
+              <Input
+                id="user-search"
+                placeholder="Search users..."
+                value={globalFilter ?? ""}
+                onChange={(e) =>
+                  handleGlobalFilterChange(String(e.target.value))
+                }
+              />
+              <MagnifyingGlassIcon className="absolute right-2" />
+            </div>
+            {/* Age range filter */}
+            <AgeRangeFilter
+              ageRange={ageRange}
+              resetFilter={() => debouncedSetAgeRange([0, 100])}
+              setAgeRange={debouncedSetAgeRange}
             />
-            <MagnifyingGlassIcon className="absolute right-2" />
           </div>
-
-          {/* Age range filter */}
-          <AgeRangeFilter
-            ageRange={ageRange}
-            setAgeRange={debouncedSetAgeRange}
-          />
 
           <div className="flex items-center gap-2">
             {/* Button for add user */}
