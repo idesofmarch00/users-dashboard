@@ -20,6 +20,7 @@ import {
   deleteUsers as deleteUsersAction,
 } from "@/lib/actions/userActions";
 import { AgeRangeFilter } from "./AgeRangeFilter";
+import { UserActionButtons } from "./UserActionButtons";
 // Function to fetch users from the server
 const fetchUsers = async (): Promise<User[]> => {
   // Call the getUsers function to fetch users
@@ -179,21 +180,18 @@ export default function UserList() {
           {/* Age range filter */}
           <AgeRangeFilter ageRange={ageRange} setAgeRange={setAgeRange} />
           {/* Buttons for adding and deleting users */}
-          <div className="flex items-center gap-2">
-            <Button>Add User</Button>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                const selectedIds = Object.keys(rowSelection).map(
-                  (index) => users[parseInt(index)].id
-                );
-                deleteMutation.mutate(selectedIds);
-              }}
-              disabled={Object.keys(rowSelection).length === 0}
-            >
-              Delete Selected
-            </Button>
-          </div>
+          <UserActionButtons
+            onAddUser={() => {
+              /* Add user logic */
+            }}
+            onDeleteSelected={() => {
+              const selectedIds = Object.keys(rowSelection).map(
+                (index) => users[parseInt(index)].id
+              );
+              deleteMutation.mutate(selectedIds);
+            }}
+            isDeleteDisabled={Object.keys(rowSelection).length === 0}
+          />
         </div>
       </div>
       {/* Table section */}
