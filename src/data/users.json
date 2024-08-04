@@ -79,5 +79,32 @@
     "alternate_email": "alexander.m@example.com",
     "password": "hashed_password_10",
     "age": 34
+  },
+  {
+    "first_name": "Sahil",
+    "last_name": "Ahmed",
+    "email": "sa.idesofmarch@gmail.com",
+    "alternate_email": "ahmed.sahil60@gmail.com",
+    "age": 24,
+    "password": "$2b$10$pzul6U3A/tggxn.Udeyn8.Fa7YsdrlCf4D8yzpxrEZM42dEC.Gwku",
+    "id": "10"
+  },
+  {
+    "first_name": "Kashif",
+    "last_name": "Ahmed",
+    "email": "kashif@gmail.com",
+    "alternate_email": "kashifahmed@gmail.com",
+    "age": 46,
+    "password": "$2b$10$YuzSgiSc8h9LfM1X/zOE1.vmS3mR0pKwTtmUo1LGX58l2F0zGOVPS",
+    "id": "11"
+  },
+  {
+    "first_name": "Sahil",
+    "last_name": "Ahmed",
+    "email": "sa.idesofmarch@gmail.com",
+    "alternate_email": "sa.idesof23march@gmail.com",
+    "age": 23,
+    "password": "$2b$10$ls3FlwRAKOtVQej0g1yj6e/430KRLwb21J7iUElLfnKlkCTx1Wfou",
+    "id": "12"
   }
 ]

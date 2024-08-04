@@ -23,15 +23,15 @@ import {
 } from "@/lib/actions/userActions";
 import { AgeRangeFilter } from "./AgeRangeFilter";
 import AddUserModal from "./AddUserModal";
+import toast, { Toaster } from "react-hot-toast";
+
 // Function to fetch users from the server
 const fetchUsers = async (): Promise<User[]> => {
-  // Call the getUsers function to fetch users
   return getUsers();
 };
 
 // Function to delete users from the server
 const deleteUsers = async (ids: string[]) => {
-  // Call the deleteUsersAction function to delete users
   return deleteUsersAction(ids);
 };
 
@@ -43,19 +43,13 @@ const ageRangeFilter: FilterFn<User> = (row, columnId, value) => {
 };
 
 export default function UserList() {
-  // State to manage the global filter for the table
   const [globalFilter, setGlobalFilter] = useState("");
-  // State to manage the selection of rows in the table
   const [rowSelection, setRowSelection] = useState({});
-  // State to manage the age range filter
   const [ageRange, setAgeRange] = useState<[number, number]>([0, 100]);
-  // State to manage the current page
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 10;
-  // Use the query client to manage queries
   const queryClient = useQueryClient();
 
-  // Query to fetch users
   const {
     data: users = [],
     isLoading,
@@ -65,7 +59,6 @@ export default function UserList() {
     queryFn: fetchUsers,
   });
 
-  // Memoize the filtered data
   const filteredData = useMemo(() => {
     return users.filter((user) => {
       const matchesAgeRange =
@@ -81,14 +74,12 @@ export default function UserList() {
     });
   }, [users, ageRange, globalFilter]);
 
-  // Calculate pagination
   const totalPages = Math.ceil(filteredData.length / pageSize);
   const paginatedData = useMemo(() => {
     const start = currentPage * pageSize;
     return filteredData.slice(start, start + pageSize);
   }, [filteredData, currentPage]);
 
-  // Debounce the setAgeRange function
   const debouncedSetAgeRange = useCallback(
     (newRange: [number, number]) => {
       debounce((range: [number, number]) => {
@@ -118,31 +109,33 @@ export default function UserList() {
   const deleteMutation = useMutation({
     mutationFn: deleteUsers,
     onSuccess: () => {
-      // Invalidate the users query to refetch after deletion
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      // Reset row selection after deletion
       setRowSelection({});
+      toast.success("User(s) deleted successfully");
+    },
+    onError: () => {
+      toast.error("Failed to delete user(s)");
     },
   });
 
-  // Mutation to delete users
+  // Mutation to add users
   const addUserMutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
-      // Invalidate the users query to refetch after deletion
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      // Reset row selection after deletion
       setRowSelection({});
+      toast.success("User added successfully");
+    },
+    onError: () => {
+      toast.error("Failed to add user");
     },
   });
 
-  // Memoized columns for the table
   const columns = useMemo<ColumnDef<User>[]>(
     () => [
       {
         id: "select",
         header: ({ table }) => (
-          // Checkbox to select all rows
           <input
             type="checkbox"
             checked={table.getIsAllRowsSelected()}
@@ -150,7 +143,6 @@ export default function UserList() {
           />
         ),
         cell: ({ row }) => (
-          // Checkbox to select individual rows
           <input
             id={`select-${row.id}`}
             type="checkbox"
@@ -179,7 +171,6 @@ export default function UserList() {
       {
         id: "actions",
         cell: ({ row }) => (
-          // Actions column with edit and delete buttons
           <div>
             <Button variant="outline" size="sm" className="mr-2">
               Edit
@@ -198,7 +189,6 @@ export default function UserList() {
     [deleteMutation]
   );
 
-  // Memoize the table options
   const tableOptions = useMemo(
     () => ({
       data: paginatedData,
@@ -215,26 +205,21 @@ export default function UserList() {
     [paginatedData, columns, rowSelection, handleRowSelectionChange, totalPages]
   );
 
-  // Use the memoized options to create the table
   const table = useReactTable(tableOptions);
 
-  // Display loading message if data is being fetched
   if (isLoading) return <div>Loading...</div>;
-  // Display error message if an error occurs
   if (error) return <div>An error occurred</div>;
 
   return (
     <div>
-      {/* Header section */}
+      <Toaster />
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold">Users</h2>
       </div>
 
-      {/* Filter and action section */}
       <div className="flex justify-between items-center">
         <div className="flex w-full justify-between mb-4">
           <div className="flex items-center gap-4 w-full">
-            {/* Input field for filtering users with search icon */}
             <div className="flex items-center w-1/3 relative">
               <Input
                 id="user-search"
@@ -246,7 +231,6 @@ export default function UserList() {
               />
               <MagnifyingGlassIcon className="absolute right-2" />
             </div>
-            {/* Age range filter */}
             <AgeRangeFilter
               ageRange={ageRange}
               resetFilter={() => debouncedSetAgeRange([0, 100])}
@@ -255,10 +239,7 @@ export default function UserList() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Button for add user */}
             <AddUserModal addUser={addUserMutation as any} />
-
-            {/* Button for deleting users */}
             <Button
               variant="destructive"
               onClick={() => {
@@ -275,7 +256,6 @@ export default function UserList() {
         </div>
       </div>
 
-      {/* Table section */}
       <div className="rounded-md border">
         <table className="w-full">
           <thead>
@@ -317,7 +297,6 @@ export default function UserList() {
         </table>
       </div>
 
-      {/* Pagination section */}
       <div className="flex items-center justify-between mt-4">
         <div>
           Showing {currentPage * pageSize + 1} to{" "}
