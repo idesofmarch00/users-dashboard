@@ -19,6 +19,7 @@ import { User } from "@/types/user";
 import {
   getUsers,
   deleteUsers as deleteUsersAction,
+  createUser,
 } from "@/lib/actions/userActions";
 import { AgeRangeFilter } from "./AgeRangeFilter";
 import AddUserModal from "./AddUserModal";
@@ -116,6 +117,17 @@ export default function UserList() {
   // Mutation to delete users
   const deleteMutation = useMutation({
     mutationFn: deleteUsers,
+    onSuccess: () => {
+      // Invalidate the users query to refetch after deletion
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      // Reset row selection after deletion
+      setRowSelection({});
+    },
+  });
+
+  // Mutation to delete users
+  const addUserMutation = useMutation({
+    mutationFn: createUser,
     onSuccess: () => {
       // Invalidate the users query to refetch after deletion
       queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -240,7 +252,7 @@ export default function UserList() {
 
           <div className="flex items-center gap-2">
             {/* Button for add user */}
-            <AddUserModal />
+            <AddUserModal addUser={addUserMutation} />
 
             {/* Button for deleting users */}
             <Button

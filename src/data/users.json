@@ -97,5 +97,21 @@
     "alternate_email": "ethan.a@example.com",
     "password": "hashed_password_12",
     "age": 35
+  },
+  {
+    "first_name": "Sahil",
+    "last_name": "Ahmed",
+    "email": "sa.idesofmarch@gmail.com",
+    "age": 24,
+    "password": "$2b$10$aziWUar6sG.5VeeL28t.A.Qefs1FP32GWvL7bGn7sZsH01K/g35ge",
+    "id": "12"
+  },
+  {
+    "first_name": "Sahil",
+    "last_name": "Ahmed",
+    "email": "sa.idesofmarch@gmail.com",
+    "age": 23,
+    "password": "$2b$10$skGTIeiGFOH8rlqHLQwFCenkmEiU/jaKI6Kgat3coAvw7OtNXM46G",
+    "id": "13"
   }
 ]

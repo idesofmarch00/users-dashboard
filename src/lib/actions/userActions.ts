@@ -27,35 +27,20 @@ export async function getUsers(): Promise<User[]> {
   return readUsersFile();
 }
 
-// ... existing code ...
-
-export async function addUser(userData: UserFormData) {
+// Exporting a function to create a new user and add them to the data file
+export async function createUser(userData: Omit<User, "id">): Promise<User> {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
 
-  // Replace this with your actual database insertion logic
+  const users = await readUsersFile();
   const newUser = {
     ...userData,
     password: hashedPassword,
-    id: Date.now().toString(), // This is just a placeholder, use your actual ID generation logic
-  };
-
-  // Simulating database insertion
-  console.log("New user added:", newUser);
-
-  // In a real application, you would insert the user into your database here
-  // For example: await db.insert(users).values(newUser);
-
-  return newUser;
-}
-
-// Exporting a function to create a new user and add them to the data file
-export async function createUser(user: Omit<User, "id">): Promise<User> {
-  const users = await readUsersFile();
-  const newUser: User = {
-    ...user,
     id: (users.length + 1).toString(),
   };
+
+  console.log("New user added:", newUser);
+
   users.push(newUser);
   await writeUsersFile(users);
   return newUser;

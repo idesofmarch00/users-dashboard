@@ -12,9 +12,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { addUser } from "@/lib/actions/userActions";
+import { UseMutationResult } from "@tanstack/react-query";
 
-export default function AddUserModal() {
+interface AddUserModalProps {
+  addUser: UseMutationResult<any, unknown, UserFormData, unknown>;
+}
+
+export default function AddUserModal({ addUser }: AddUserModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const {
     register,
@@ -27,7 +31,7 @@ export default function AddUserModal() {
 
   const onSubmit = async (data: UserFormData) => {
     try {
-      await addUser(data);
+      await addUser.mutateAsync(data);
       setIsOpen(false);
       reset();
     } catch (error) {
