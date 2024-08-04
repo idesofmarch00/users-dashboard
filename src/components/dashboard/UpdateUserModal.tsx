@@ -94,6 +94,7 @@ export default function UpdateUserModal({
         console.error("Password does not meet the requirements.");
         return; // Do not proceed with the submission
       }
+      data.password = password;
     } else {
       data.password = userData.password;
     }
@@ -104,10 +105,11 @@ export default function UpdateUserModal({
 
     const payload: UpdateUserPayload = {
       id: userData.id,
-      ...data,
+      updatedUser: data,
     };
 
     try {
+      console.log(payload);
       await updateUser.mutateAsync(payload);
       setIsOpen(false);
     } catch (error) {

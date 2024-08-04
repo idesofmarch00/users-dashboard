@@ -148,7 +148,9 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
     }: {
       id: string;
       updatedUser: Partial<User>;
-    }) => updateUser(id, updatedUser),
+    }) => {
+      updateUser(id, updatedUser);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setRowSelection({});
@@ -202,7 +204,7 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
           <div>
             <UpdateUserModal
               userData={row.original}
-              updateUser={updateUserMutation as any}
+              updateUser={updateUserMutation}
             />
 
             <Button

@@ -11,7 +11,6 @@ import { User } from "../../types/user";
 
 // Defining the path to the users data file
 const DATA_FILE_PATH = path.join(process.cwd(), "src/data", "users.json");
-console.log(DATA_FILE_PATH);
 
 // Function to read the users data file and return the users array
 async function readUsersFile(): Promise<User[]> {
@@ -49,7 +48,6 @@ export async function createUser(
     id: (users.length + 1).toString(),
     ...userData,
     password: hashedPassword,
-    
   };
 
   users.push(newUser);
