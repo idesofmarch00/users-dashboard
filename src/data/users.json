@@ -1,12 +1,12 @@
 [
   {
     "id": "1",
-    "first_name": "Sahil",
+    "first_name": "Sahils",
     "last_name": "Ahmed",
     "email": "sa.idesofmarch@gmail.com",
     "alternate_email": "ahmed.sahil60@gmail.com",
     "age": 24,
-    "password": "$2b$10$u0ozEhn6nEUFBnNyJi5WAONKSNGhgbcAE400IhDtyYYxHD6QfAtx2"
+    "password": "$2b$10$f/7YAQQy6W3xwSdzqVRRKOA2yKkWovVTR4hOCZyLsgCPF49K83vOS"
   },
   {
     "id": "3",

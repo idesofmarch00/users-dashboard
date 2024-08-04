@@ -9,7 +9,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 
 //actions
-import { checkIfUserExists } from "@/lib/actions/userActions";
+import { checkIfUserExistsByEmailAndId } from "@/lib/actions/userActions";
 
 // Types
 import { userSchema, UserFormData } from "@/lib/schemas/userSchema";
@@ -88,10 +88,15 @@ export default function UpdateUserModal({
 
   // Function to handle form submission
   const onSubmit = async (data: UserFormData) => {
-    const userExists = await checkIfUserExists(data.email);
-    if (userExists) {
-      return toast.error("User with email aleary exists");
+    // Check if the user updating is the same one
+    const sameUser = await checkIfUserExistsByEmailAndId(
+      data.email as string,
+      userData.id
+    );
+    if (!sameUser) {
+      return toast.error("Cannot update email to already existing email");
     }
+
     // Validate password if it's edited
     if (password) {
       if (!validatePassword(password)) {

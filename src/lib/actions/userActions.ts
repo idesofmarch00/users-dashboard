@@ -34,6 +34,15 @@ export async function checkIfUserExists(email: string): Promise<boolean> {
   return users.some((user) => user.email === email);
 }
 
+// Exporting a function to check if a user exists by email and id
+export async function checkIfUserExistsByEmailAndId(
+  email: string,
+  id: string
+): Promise<boolean> {
+  const users = await readUsersFile();
+  return users.some((user) => user.email === email && user.id === id);
+}
+
 // Exporting a function to create a new user and add them to the data file
 export async function createUser(
   userData: Omit<User, "id">
@@ -68,12 +77,13 @@ export async function updateUser(
 ): Promise<User | null> {
   const users = await readUsersFile();
 
-  // Check if a user with the same email or name already exists
-  const userWithExistingEmail = await checkIfUserExists(
-    updatedUser.email as string
+  // Check if the user updating is the same one
+  const sameUser = await checkIfUserExistsByEmailAndId(
+    updatedUser.email as string,
+    id
   );
 
-  if (userWithExistingEmail) {
+  if (!sameUser) {
     throw new Error("Cannot update email to already existing email.");
   }
 
