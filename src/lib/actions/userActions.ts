@@ -1,5 +1,6 @@
 "use server";
-
+import bcrypt from "bcrypt";
+import { UserFormData } from "@/lib/schemas/userSchema";
 // Importing necessary modules for file operations and path manipulation
 import fs from "fs/promises";
 import path from "path";
@@ -24,6 +25,28 @@ async function writeUsersFile(users: User[]): Promise<void> {
 // Exporting a function to fetch all users from the data file
 export async function getUsers(): Promise<User[]> {
   return readUsersFile();
+}
+
+// ... existing code ...
+
+export async function addUser(userData: UserFormData) {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+
+  // Replace this with your actual database insertion logic
+  const newUser = {
+    ...userData,
+    password: hashedPassword,
+    id: Date.now().toString(), // This is just a placeholder, use your actual ID generation logic
+  };
+
+  // Simulating database insertion
+  console.log("New user added:", newUser);
+
+  // In a real application, you would insert the user into your database here
+  // For example: await db.insert(users).values(newUser);
+
+  return newUser;
 }
 
 // Exporting a function to create a new user and add them to the data file

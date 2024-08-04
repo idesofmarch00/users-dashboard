@@ -21,7 +21,7 @@ import {
   deleteUsers as deleteUsersAction,
 } from "@/lib/actions/userActions";
 import { AgeRangeFilter } from "./AgeRangeFilter";
-import { UserActionButtons } from "./UserActionButtons";
+import AddUserModal from "./AddUserModal";
 // Function to fetch users from the server
 const fetchUsers = async (): Promise<User[]> => {
   // Call the getUsers function to fetch users
@@ -67,12 +67,13 @@ export default function UserList() {
   // Memoize the filtered data
   const filteredData = useMemo(() => {
     return users.filter((user) => {
-      const matchesAgeRange = user.age >= ageRange[0] && user.age <= ageRange[1];
-      const matchesGlobalFilter = 
+      const matchesAgeRange =
+        user.age >= ageRange[0] && user.age <= ageRange[1];
+      const matchesGlobalFilter =
         globalFilter === "" ||
         Object.values(user).some(
-          (value) => 
-            typeof value === "string" && 
+          (value) =>
+            typeof value === "string" &&
             value.toLowerCase().includes(globalFilter.toLowerCase())
         );
       return matchesAgeRange && matchesGlobalFilter;
@@ -237,19 +238,24 @@ export default function UserList() {
             setAgeRange={debouncedSetAgeRange}
           />
 
-          {/* Buttons for adding and deleting users */}
-          <UserActionButtons
-            onAddUser={() => {
-              /* Add user logic */
-            }}
-            onDeleteSelected={() => {
-              const selectedIds = Object.keys(rowSelection).map(
-                (index) => users[parseInt(index)].id
-              );
-              deleteMutation.mutate(selectedIds);
-            }}
-            isDeleteDisabled={Object.keys(rowSelection).length === 0}
-          />
+          <div className="flex items-center gap-2">
+            {/* Button for add user */}
+            <AddUserModal />
+
+            {/* Button for deleting users */}
+            <Button
+              variant="destructive"
+              onClick={() => {
+                const selectedIds = Object.keys(rowSelection).map(
+                  (index) => users[parseInt(index)].id
+                );
+                deleteMutation.mutate(selectedIds);
+              }}
+              disabled={Object.keys(rowSelection).length === 0}
+            >
+              Delete Selected
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -277,7 +283,7 @@ export default function UserList() {
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="px-4 py-2">
-                    {cell.column.id === 'select' ? (
+                    {cell.column.id === "select" ? (
                       <input
                         id={`select-${row.id}`}
                         type="checkbox"
@@ -314,7 +320,9 @@ export default function UserList() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
+            }
             disabled={currentPage === totalPages - 1}
           >
             Next
