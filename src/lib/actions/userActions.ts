@@ -42,7 +42,7 @@ export async function createUser(
   const existingUser = users.find((user) => user.email === userData.email);
 
   if (existingUser) {
-    throw new Error("User already exists with the same email");
+    throw new Error("User with email already exists");
   }
 
   const newUser = {
@@ -67,7 +67,6 @@ export async function updateUser(
   if (userIndex === -1) return null;
 
   const existingUser = users[userIndex];
-
   // If the password is being updated, hash it
   if (updatedUser.password) {
     const isPasswordMatch = await bcrypt.compare(

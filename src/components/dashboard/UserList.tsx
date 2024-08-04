@@ -129,7 +129,11 @@ export default function UserList() {
       toast.success("User added successfully");
     },
     onError: (error) => {
-      toast.error(error.message);
+      if (error.message === "User with email already exists") {
+        toast.error(error.message); // Show specific error message
+      } else {
+        toast.error("Failed to add user"); // Show generic error message
+      }
     },
   });
 
