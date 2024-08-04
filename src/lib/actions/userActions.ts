@@ -61,6 +61,16 @@ export async function updateUser(
   updatedUser: Partial<User>
 ): Promise<User | null> {
   const users = await readUsersFile();
+
+  // Check if a user with the same email or name already exists
+  const userWithExistingEmail = users.find(
+    (user) => user.email === updatedUser.email
+  );
+
+  if (userWithExistingEmail) {
+    throw new Error("Cannot update email to already existing email.");
+  }
+
   const userIndex = users.findIndex((u) => u.id === id);
 
   if (userIndex === -1) return null;

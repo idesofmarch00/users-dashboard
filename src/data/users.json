@@ -5,8 +5,8 @@
     "last_name": "Ahmed",
     "email": "sa.idesofmarch@gmail.com",
     "alternate_email": "ahmed.sahil60@gmail.com",
-    "age": 23,
-    "password": "$2b$10$QnruWplzMBad3kBdHPUtUu.ofrP55yQvklqQNxQmE2gxah./WhI4K"
+    "age": 24,
+    "password": "$2b$10$u0ozEhn6nEUFBnNyJi5WAONKSNGhgbcAE400IhDtyYYxHD6QfAtx2"
   },
   {
     "id": "2",
@@ -27,22 +27,13 @@
     "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
   },
   {
-    "id": "4",
-    "first_name": "Michael",
-    "last_name": "Brown",
-    "email": "michael.brown@example.com",
-    "alternate_email": "michael.brown.alt@example.com",
-    "age": 35,
-    "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
-  },
-  {
     "id": "6",
     "first_name": "William",
     "last_name": "Smith",
-    "email": "william.smith@example.com",
+    "email": "sa.idesofmarch@gmail.com",
     "alternate_email": "william.smith.alt@example.com",
     "age": 32,
-    "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
+    "password": "$2b$10$kSx02BayyZpa57YFOvcDw.d1JdSBCwN9ugJNxyF6M93WL/Jirfjie"
   },
   {
     "id": "7",
@@ -78,15 +69,6 @@
     "email": "ethan.miller@example.com",
     "alternate_email": "ethan.miller.alt@example.com",
     "age": 33,
-    "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
-  },
-  {
-    "id": "12",
-    "first_name": "Lily",
-    "last_name": "Wilson",
-    "email": "lily.wilson@example.com",
-    "alternate_email": "lily.wilson.alt@example.com",
-    "age": 23,
     "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
   },
   {
