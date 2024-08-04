@@ -101,7 +101,7 @@ export default function UpdateUserModal({
 
     type UpdateUserPayload = {
       id: string;
-      updatedUser: UserFormData;
+      updatedUser: Partial<User>;
     };
 
     const payload: UpdateUserPayload = {
@@ -110,7 +110,7 @@ export default function UpdateUserModal({
     };
 
     try {
-      await updateUser.mutateAsync(payload);
+      await updateUser.mutateAsync(payload as any);
       setIsOpen(false);
     } catch (error) {
       console.error("Failed to update user:", error);
