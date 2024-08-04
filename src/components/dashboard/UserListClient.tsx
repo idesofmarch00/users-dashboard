@@ -142,14 +142,14 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
 
   // Mutation to add users
   const updateUserMutation = useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       id,
       updatedUser,
     }: {
       id: string;
       updatedUser: Partial<User>;
     }) => {
-      updateUser(id, updatedUser);
+      await updateUser(id, updatedUser); // Ensure this returns a Promise
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -204,7 +204,7 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
           <div>
             <UpdateUserModal
               userData={row.original}
-              updateUser={updateUserMutation}
+              updateUser={updateUserMutation as any}
             />
 
             <Button

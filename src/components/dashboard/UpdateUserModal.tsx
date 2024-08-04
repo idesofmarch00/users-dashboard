@@ -101,7 +101,8 @@ export default function UpdateUserModal({
 
     type UpdateUserPayload = {
       id: string;
-    } & UserFormData;
+      updatedUser: UserFormData;
+    };
 
     const payload: UpdateUserPayload = {
       id: userData.id,
@@ -109,7 +110,6 @@ export default function UpdateUserModal({
     };
 
     try {
-      console.log(payload);
       await updateUser.mutateAsync(payload);
       setIsOpen(false);
     } catch (error) {
