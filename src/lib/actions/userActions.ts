@@ -46,9 +46,10 @@ export async function createUser(
   }
 
   const newUser = {
+    id: (users.length + 1).toString(),
     ...userData,
     password: hashedPassword,
-    id: (users.length + 1).toString(),
+    
   };
 
   users.push(newUser);

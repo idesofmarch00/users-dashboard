@@ -1,47 +1,11 @@
 [
   {
-    "first_name": "Sahil2",
-    "last_name": "Ahmed",
-    "email": "sa.idesofmarch@gmail.com",
-    "alternate_email": "sa.idesof23march@gmail.com",
-    "age": 23,
-    "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi",
-    "id": "1"
-  },
-  {
+    "id": "1",
     "first_name": "Sahil",
     "last_name": "Ahmed",
     "email": "sa.idesofmarch@gmail.com",
-    "alternate_email": "sa.idesof3march@gmail.com",
-    "age": 25,
-    "password": "$2b$10$78d7RxglWXV2hejdcQiWK.mKatmuv553N2lZiwKMX38WqHKN25VU.",
-    "id": "2"
-  },
-  {
-    "first_name": "sSahil",
-    "last_name": "Ahmed",
-    "email": "sa.idessofmarch@gmail.com",
-    "alternate_email": "sa.idesof232march@gmail.com",
-    "age": 232323,
-    "password": "$2b$10$IxRP7U5bWIcBKcUXUpBqluBN6M0LejJRanPZeyuIFxvsqUCtFrPma",
-    "id": "3"
-  },
-  {
-    "first_name": "Sahasdasil",
-    "last_name": "Asdsahmed",
-    "email": "sa.idesofsadsamarch@gmail.com",
-    "alternate_email": "sa.idesofasdsamarch@gmail.com",
-    "age": 23,
-    "password": "$2b$10$CLgqD8Ur83rF77CWn90RKe0KuPbemygZcIZY2shEIeKU3Z7ajXOxm",
-    "id": "4"
-  },
-  {
-    "first_name": "Sahil",
-    "last_name": "Ahmed",
-    "email": "ssa.idesofmarch@gmail.com",
-    "alternate_email": "sa.ides2ofmarch@gmail.com",
-    "age": 232,
-    "password": "$2b$10$d25KndEWENDY29.gUqaw0.FfMbWN6Ni34dYylqxWqMHHVovCzDIhu",
-    "id": "5"
+    "alternate_email": "ahmed.sahil60@gmail.com",
+    "age": 24,
+    "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
   }
 ]

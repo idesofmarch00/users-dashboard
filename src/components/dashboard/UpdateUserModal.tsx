@@ -1,8 +1,18 @@
+// React imports
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+
+// Dependencies
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UseMutationResult } from "@tanstack/react-query";
+import { Eye, EyeOff } from "lucide-react";
+import { z } from "zod";
+
+// Types
 import { userSchema, UserFormData } from "@/lib/schemas/userSchema";
 import { User } from "@/types/user";
+
+// Component imports
 import {
   Dialog,
   DialogContent,
@@ -13,19 +23,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UseMutationResult } from "@tanstack/react-query";
-import { Eye, EyeOff } from "lucide-react";
-import { z } from "zod";
 
+// Define the interface for UpdateUserModalProps
 interface UpdateUserModalProps {
-  updateUser: UseMutationResult<any, unknown, UserFormData, unknown>;
-  userData: User;
+  updateUser: UseMutationResult<any, unknown, UserFormData, unknown>; // updateUser mutation result
+  userData: User; // user data to be updated
 }
 
+// Define the UpdateUserModal component
 export default function UpdateUserModal({
   updateUser,
   userData,
 }: UpdateUserModalProps) {
+  // State for modal visibility, editing status and password
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState<{
     [key: string]: boolean;
@@ -38,8 +48,9 @@ export default function UpdateUserModal({
     password: false,
   });
   const [password, setPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
 
+  // Initialize useForm with userSchema for validation and default user data
   const {
     control,
     handleSubmit,
@@ -51,12 +62,14 @@ export default function UpdateUserModal({
     defaultValues: userData,
   });
 
+  // Effect to reset the form and clear the password when user data changes
   useEffect(() => {
     reset(userData);
     setPassword(""); // Clear password for editing
   }, [userData, reset]);
 
-  const validatePassword = (password: string) => {
+  // Function to validate the password
+  const validatePassword = (password: string): boolean => {
     // Define password schema for validation
     const passwordSchema = z
       .string()
@@ -69,6 +82,7 @@ export default function UpdateUserModal({
     }
   };
 
+  // Function to handle form submission
   const onSubmit = async (data: UserFormData) => {
     // Validate password if it's edited
     if (password) {
@@ -94,6 +108,7 @@ export default function UpdateUserModal({
     }
   };
 
+  // Function to handle input click
   const handleInputClick = (field: keyof UserFormData) => {
     setIsEditing((prevState) => ({
       ...prevState,
@@ -101,6 +116,7 @@ export default function UpdateUserModal({
     }));
   };
 
+  // Function to handle password click
   const handlePasswordClick = () => {
     setIsEditing((prevState) => ({
       ...prevState,
@@ -109,10 +125,12 @@ export default function UpdateUserModal({
     setPassword(""); // Clear the password field for editing
   };
 
+  // Function to toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  // Render the UpdateUserModal component
   return (
     <Dialog
       open={isOpen}
@@ -131,6 +149,7 @@ export default function UpdateUserModal({
           <DialogTitle>Update User</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Form fields for user data */}
           <div>
             <Label htmlFor="first_name">First Name</Label>
             <Input
