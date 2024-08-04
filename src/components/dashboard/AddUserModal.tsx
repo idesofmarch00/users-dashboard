@@ -1,13 +1,13 @@
 // react imports
 import { useState } from "react";
 // Dependencies
-import { z } from "zod";
 import { UseMutationResult } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
-
-// Actions and utils
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+// Actions and utils
+import { checkIfUserExists } from "@/lib/actions/userActions";
 
 // Types
 import { userSchema, UserFormData } from "@/lib/schemas/userSchema";
@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import toast from "react-hot-toast";
 
 // Define the interface for AddUserModalProps
 interface AddUserModalProps {
@@ -49,10 +50,15 @@ export default function AddUserModal({ addUser }: AddUserModalProps) {
   const onSubmit = async (data: UserFormData) => {
     try {
       // Call the addUser mutation with the form data
-      await addUser.mutateAsync(data);
-      // Close the modal and reset the form after successful submission
-      setIsOpen(false);
-      reset();
+      const userExists = await checkIfUserExists(data.email);
+      if (!userExists) {
+        await addUser.mutateAsync(data);
+        // Close the modal and reset the form after successful submission
+        setIsOpen(false);
+        reset();
+      } else {
+        toast.error("User with email already exists");
+      }
     } catch (error) {
       console.error("Failed to add user:", error);
     }

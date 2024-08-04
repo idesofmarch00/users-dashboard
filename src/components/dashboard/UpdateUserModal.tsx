@@ -8,6 +8,9 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 
+//actions
+import { checkIfUserExists } from "@/lib/actions/userActions";
+
 // Types
 import { userSchema, UserFormData } from "@/lib/schemas/userSchema";
 import { User } from "@/types/user";
@@ -23,6 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import toast from "react-hot-toast";
 
 // Define the interface for UpdateUserModalProps
 interface UpdateUserModalProps {
@@ -84,6 +88,10 @@ export default function UpdateUserModal({
 
   // Function to handle form submission
   const onSubmit = async (data: UserFormData) => {
+    const userExists = await checkIfUserExists(data.email);
+    if (userExists) {
+      return toast.error("User with email aleary exists");
+    }
     // Validate password if it's edited
     if (password) {
       if (!validatePassword(password)) {

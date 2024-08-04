@@ -9,15 +9,6 @@
     "password": "$2b$10$u0ozEhn6nEUFBnNyJi5WAONKSNGhgbcAE400IhDtyYYxHD6QfAtx2"
   },
   {
-    "id": "2",
-    "first_name": "John",
-    "last_name": "Doe",
-    "email": "john.doe@example.com",
-    "alternate_email": "john.doe.alt@example.com",
-    "age": 30,
-    "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
-  },
-  {
     "id": "3",
     "first_name": "Jane",
     "last_name": "Doe",
@@ -25,15 +16,6 @@
     "alternate_email": "jane.doe.alt@example.com",
     "age": 28,
     "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
-  },
-  {
-    "id": "6",
-    "first_name": "William",
-    "last_name": "Smith",
-    "email": "sa.idesofmarch@gmail.com",
-    "alternate_email": "william.smith.alt@example.com",
-    "age": 32,
-    "password": "$2b$10$kSx02BayyZpa57YFOvcDw.d1JdSBCwN9ugJNxyF6M93WL/Jirfjie"
   },
   {
     "id": "7",

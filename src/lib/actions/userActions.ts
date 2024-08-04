@@ -28,6 +28,12 @@ export async function getUsers(): Promise<User[]> {
   return readUsersFile();
 }
 
+// Exporting a function to check if a user exists by email
+export async function checkIfUserExists(email: string): Promise<boolean> {
+  const users = await readUsersFile();
+  return users.some((user) => user.email === email);
+}
+
 // Exporting a function to create a new user and add them to the data file
 export async function createUser(
   userData: Omit<User, "id">
@@ -37,8 +43,8 @@ export async function createUser(
 
   const users = await readUsersFile();
 
-  // Check if a user with the same email or name already exists
-  const existingUser = users.find((user) => user.email === userData.email);
+  // Check if a user with the same email already exists
+  const existingUser = await checkIfUserExists(userData.email);
 
   if (existingUser) {
     throw new Error("User with email already exists");
@@ -63,8 +69,8 @@ export async function updateUser(
   const users = await readUsersFile();
 
   // Check if a user with the same email or name already exists
-  const userWithExistingEmail = users.find(
-    (user) => user.email === updatedUser.email
+  const userWithExistingEmail = await checkIfUserExists(
+    updatedUser.email as string
   );
 
   if (userWithExistingEmail) {
