@@ -329,6 +329,12 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
         </table>
       </div>
 
+      {filteredData.length === 0 && (
+        <div className="text-center text-gray-500 mt-4">
+          No users found.
+        </div>
+      )}
+
       <div className="flex items-center justify-between mt-4">
         <div>
           Showing {currentPage * pageSize + 1} to{" "}
