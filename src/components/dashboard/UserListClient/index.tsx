@@ -330,38 +330,39 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
       </div>
 
       {filteredData.length === 0 && (
-        <div className="text-center text-gray-500 mt-4">
-          No users found.
-        </div>
+        <div className="text-center text-gray-500 mt-4">No users found.</div>
       )}
 
-      <div className="flex items-center justify-between mt-4">
-        <div>
-          Showing {currentPage * pageSize + 1} to{" "}
-          {Math.min((currentPage + 1) * pageSize, filteredData.length)} of{" "}
-          {filteredData.length} results
+      {filteredData.length > 0 && (
+        <div className="flex items-center justify-between mt-4">
+          <div>
+            Showing {currentPage * pageSize + 1} to{" "}
+            {Math.min((currentPage + 1) * pageSize, filteredData.length)} of{" "}
+            {filteredData.length} results
+          </div>
+
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+              disabled={currentPage === 0}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
+              }
+              disabled={currentPage === totalPages - 1}
+            >
+              Next
+            </Button>
+          </div>
         </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
-            disabled={currentPage === 0}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
-            }
-            disabled={currentPage === totalPages - 1}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
