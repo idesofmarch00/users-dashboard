@@ -10,7 +10,9 @@ import path from "path";
 import { User } from "../../types/user";
 
 // Defining the path to the users data file
-const DATA_FILE_PATH = path.join(process.cwd(), "src/data", "users.json");
+const DATA_FILE_PATH =
+  process.env.DATA_FILE_PATH ||
+  path.join(process.cwd(), "src/data", "users.json");
 
 // Function to read the users data file and return the users array
 async function readUsersFile(): Promise<User[]> {

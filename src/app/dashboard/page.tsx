@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Navigation from "@/components/dashboard/Navigation";
 import UserListServer from "@/components/dashboard/UserListServer";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
       <div className="flex-grow p-4">

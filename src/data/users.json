@@ -1,12 +1,12 @@
 [
   {
     "id": "1",
-    "first_name": "Sahils",
+    "first_name": "Sahil",
     "last_name": "Ahmed",
     "email": "sa.idesofmarch@gmail.com",
     "alternate_email": "ahmed.sahil60@gmail.com",
     "age": 24,
-    "password": "$2b$10$f/7YAQQy6W3xwSdzqVRRKOA2yKkWovVTR4hOCZyLsgCPF49K83vOS"
+    "password": "$2b$10$ceoIdLWKMcQtcXDSgrx4rOM4NYvnkugoSOKyH4/31pPSTgPW/RGf."
   },
   {
     "id": "3",
@@ -51,15 +51,6 @@
     "email": "ethan.miller@example.com",
     "alternate_email": "ethan.miller.alt@example.com",
     "age": 33,
-    "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
-  },
-  {
-    "id": "13",
-    "first_name": "Noah",
-    "last_name": "Moore",
-    "email": "noah.moore@example.com",
-    "alternate_email": "noah.moore.alt@example.com",
-    "age": 34,
     "password": "$2b$10$BgV4BvqBbfeAXY9/JFYbXuEBj81EfdfgsY5NVeAgdSLFyx5D6Q/zi"
   },
   {
