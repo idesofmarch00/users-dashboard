@@ -7,24 +7,24 @@ import { User } from "../../types/user";
 const inMemoryUsers: User[] = userData;
 
 // Function to simulate reading users from in-memory storage
-async function readUsers(): Promise<User[]> {
+async function readUserStorage(): Promise<User[]> {
   return inMemoryUsers;
 }
 
 // Function to simulate writing users to in-memory storage
-async function writeUsers(users: User[]): Promise<void> {
+async function updateUserStorage(users: User[]): Promise<void> {
   // Replace the contents of in-memory storage with the updated users array
   inMemoryUsers.splice(0, inMemoryUsers.length, ...users);
 }
 
 // Exporting a function to fetch all users from the in-memory storage
 export async function getUsers(): Promise<User[]> {
-  return readUsers();
+  return readUserStorage();
 }
 
 // Exporting a function to check if a user exists by email
 export async function checkIfUserExists(email: string): Promise<boolean> {
-  const users = await readUsers();
+  const users = await readUserStorage();
   return users.some((user) => user.email === email);
 }
 
@@ -33,7 +33,7 @@ export async function checkIfUserCanEdit(
   id: string,
   newEmail: string
 ): Promise<boolean | { error: string }> {
-  const users = await readUsers();
+  const users = await readUserStorage();
   const user = users.find((user) => user.id === id);
 
   if (!user) return false; // User not found
@@ -55,7 +55,7 @@ export async function createUser(
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
 
-  const users = await readUsers();
+  const users = await readUserStorage();
 
   // Check if a user with the same email already exists
   const existingUser = await checkIfUserExists(userData.email);
@@ -71,7 +71,7 @@ export async function createUser(
   };
 
   users.push(newUser);
-  await writeUsers(users);
+  await updateUserStorage(users);
   return newUser;
 }
 
@@ -80,7 +80,7 @@ export async function updateUser(
   id: string,
   updatedUser: Partial<User>
 ): Promise<User | { error: string } | null> {
-  const users = await readUsers();
+  const users = await readUserStorage();
 
   // Check if the user updating is the same one
   const response = await checkIfUserCanEdit(id, updatedUser.email as string);
@@ -120,26 +120,26 @@ export async function updateUser(
   }
 
   users[userIndex] = { ...users[userIndex], ...updatedUser };
-  await writeUsers(users);
+  await updateUserStorage(users);
   return users[userIndex];
 }
 
 // Exporting a function to delete a single user from the in-memory storage
 export async function deleteUser(id: string): Promise<boolean> {
-  const users = await readUsers();
+  const users = await readUserStorage();
   const updatedUsers = users.filter((u) => u.id !== id);
   if (updatedUsers.length === users.length) return false;
 
-  await writeUsers(updatedUsers);
+  await updateUserStorage(updatedUsers);
   return true;
 }
 
 // Exporting a function to delete multiple users from the in-memory storage
 export async function deleteUsers(ids: string[]): Promise<boolean> {
-  const users = await readUsers();
+  const users = await readUserStorage();
   const updatedUsers = users.filter((u) => !ids.includes(u.id));
   if (updatedUsers.length === users.length) return false;
 
-  await writeUsers(updatedUsers);
+  await updateUserStorage(updatedUsers);
   return true;
 }

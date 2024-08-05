@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/popover"; // Importing Popover components for creating a dropdown menu
 import { Button } from "@/components/ui/button"; // Importing Button component for interactive elements
 import { DualRangeSlider } from "@/components/ui/dual-range-slider"; // Importing DualRangeSlider for age range selection
-import { FilterIcon } from "lucide-react"; // Assuming you're using lucide-react for icons
+import { FilterIcon } from "lucide-react";
 
 // Defining the interface for AgeRangeFilterProps
 interface AgeRangeFilterProps {

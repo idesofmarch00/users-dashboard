@@ -47,12 +47,12 @@ interface UserListClientProps {
 }
 
 export default function UserListClient({ initialUsers }: UserListClientProps) {
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [rowSelection, setRowSelection] = useState({});
-  const [ageRange, setAgeRange] = useState<[number, number]>([0, 100]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const pageSize = 10;
-  const queryClient = useQueryClient();
+  const [globalFilter, setGlobalFilter] = useState(""); // State for global filter input
+  const [rowSelection, setRowSelection] = useState({}); // State for row selection
+  const [ageRange, setAgeRange] = useState<[number, number]>([0, 100]); // State for age range filter
+  const [currentPage, setCurrentPage] = useState(0); // State for current page
+  const pageSize = 10; // Size of each page
+  const queryClient = useQueryClient(); // Query client for managing queries
 
   const {
     data: users = initialUsers,
@@ -65,6 +65,7 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
   });
 
   const filteredData = useMemo(() => {
+    // Filter users based on age range and global filter
     return users.filter((user) => {
       const matchesAgeRange =
         user.age >= ageRange[0] && user.age <= ageRange[1];
@@ -79,14 +80,16 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
     });
   }, [users, ageRange, globalFilter]);
 
-  const totalPages = Math.ceil(filteredData.length / pageSize);
+  const totalPages = Math.ceil(filteredData.length / pageSize); // Calculate total pages
   const paginatedData = useMemo(() => {
+    // Paginate filtered data
     const start = currentPage * pageSize;
     return filteredData.slice(start, start + pageSize);
   }, [filteredData, currentPage]);
 
   const debouncedSetAgeRange = useCallback(
     (newRange: [number, number]) => {
+      // Debounce age range change to prevent excessive state updates
       debounce((range: [number, number]) => {
         setAgeRange(range);
       }, 50)(newRange);
@@ -95,16 +98,19 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
   );
   const handleRowSelectionChange = useCallback(
     (updater: any) => {
+      // Handle row selection change
       setRowSelection((prev) => updater(prev));
     },
     [setRowSelection]
   );
 
   const debouncedSetGlobalFilter = debounce((query: string) => {
+    // Debounce global filter change to prevent excessive state updates
     setGlobalFilter(query);
   }, 50);
   const handleGlobalFilterChange = useCallback(
     (query: string) => {
+      // Handle global filter change
       debouncedSetGlobalFilter(query);
     },
     [debouncedSetGlobalFilter]
@@ -114,6 +120,7 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
   const deleteMutation = useMutation({
     mutationFn: deleteUsers,
     onSuccess: () => {
+      // Invalidate users query after deletion
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setRowSelection({});
       toast.success("User(s) deleted successfully");
@@ -127,6 +134,7 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
   const addUserMutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
+      // Invalidate users query after addition
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setRowSelection({});
       toast.success("User added successfully");
@@ -140,7 +148,7 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
     },
   });
 
-  // Mutation to add users
+  // Mutation to update users
   const updateUserMutation = useMutation({
     mutationFn: async ({
       id,
@@ -152,6 +160,7 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
       await updateUser(id, updatedUser); // Ensure this returns a Promise
     },
     onSuccess: () => {
+      // Invalidate users query after update
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setRowSelection({});
       toast.success("User updated successfully");
