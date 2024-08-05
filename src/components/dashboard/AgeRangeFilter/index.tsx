@@ -3,17 +3,19 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { DualRangeSlider } from "@/components/ui/dual-range-slider";
+} from "@/components/ui/popover"; // Importing Popover components for creating a dropdown menu
+import { Button } from "@/components/ui/button"; // Importing Button component for interactive elements
+import { DualRangeSlider } from "@/components/ui/dual-range-slider"; // Importing DualRangeSlider for age range selection
 import { FilterIcon } from "lucide-react"; // Assuming you're using lucide-react for icons
 
+// Defining the interface for AgeRangeFilterProps
 interface AgeRangeFilterProps {
-  ageRange: [number, number];
-  setAgeRange: (range: [number, number]) => void;
-  resetFilter: () => void;
+  ageRange: [number, number]; // Represents the current age range selected
+  setAgeRange: (range: [number, number]) => void; // Function to update the age range state
+  resetFilter: () => void; // Function to reset the filter
 }
 
+// AgeRangeFilter component
 export function AgeRangeFilter({
   ageRange,
   setAgeRange,
@@ -48,6 +50,7 @@ export function AgeRangeFilter({
             <DualRangeSlider
               value={ageRange}
               onValueChange={(value) => {
+                // Ensuring the minimum age is not greater than the maximum age before updating the state
                 if (value[0] <= value[1]) {
                   setAgeRange([value[0], value[1]]);
                 }
