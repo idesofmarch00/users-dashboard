@@ -1,9 +1,10 @@
 "use server";
+import { userData } from "../../data/users";
 import bcrypt from "bcrypt";
 import { User } from "../../types/user";
 
 // Define in-memory storage for users
-const inMemoryUsers: User[] = []; // This will be reset on every serverless function invocation
+const inMemoryUsers: User[] = userData;
 
 // Function to simulate reading users from in-memory storage
 async function readUsers(): Promise<User[]> {
@@ -85,7 +86,11 @@ export async function updateUser(
   const response = await checkIfUserCanEdit(id, updatedUser.email as string);
 
   // Check if response is an object with an error property
-  if (typeof response === 'object' && response !== null && 'error' in response) {
+  if (
+    typeof response === "object" &&
+    response !== null &&
+    "error" in response
+  ) {
     return { error: "Cannot update email to already existing email." };
   }
 
