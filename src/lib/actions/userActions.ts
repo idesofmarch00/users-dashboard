@@ -48,7 +48,7 @@ export async function checkIfUserExistsByEmailAndId(
 // Exporting a function to create a new user and add them to the data file
 export async function createUser(
   userData: Omit<User, "id">
-): Promise<User | null | undefined> {
+): Promise<User | { error: string } | null | undefined> {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
 
@@ -58,7 +58,7 @@ export async function createUser(
   const existingUser = await checkIfUserExists(userData.email);
 
   if (existingUser) {
-    throw new Error("User with email already exists");
+    return { error: "User with email already exists" };
   }
 
   const newUser = {
@@ -76,7 +76,7 @@ export async function createUser(
 export async function updateUser(
   id: string,
   updatedUser: Partial<User>
-): Promise<User | null> {
+): Promise<User | { error: string } | null> {
   const users = await readUsersFile();
 
   // Check if the user updating is the same one
@@ -86,7 +86,7 @@ export async function updateUser(
   );
 
   if (!sameUser) {
-    throw new Error("Cannot update email to already existing email.");
+    return { error: "Cannot update email to already existing email." };
   }
 
   const userIndex = users.findIndex((u) => u.id === id);
