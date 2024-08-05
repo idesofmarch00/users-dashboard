@@ -67,3 +67,34 @@
     @apply bg-background text-foreground;
   }
 }
+
+:root {
+  --primary-dark: #110f35;
+  --accent-red: #ff4c4c;
+  --accent-green: #4caf50;
+  --accent-grey: #91a3ac;
+  --accent-black: #000000;
+}
+
+body {
+  background-color: var(--primary-dark);
+  color: var(--accent-grey);
+}
+
+.error {
+  color: var(--accent-red);
+}
+
+.success {
+  color: var(--accent-green);
+}
+
+.button {
+  background-color: var(--accent-green);
+  color: var(--accent-black);
+}
+
+.button-error {
+  background-color: var(--accent-red);
+  color: var(--accent-black);
+}

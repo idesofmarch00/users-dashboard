@@ -22,7 +22,7 @@ import {
 } from "@/lib/actions/userActions";
 import { AgeRangeFilter } from "../AgeRangeFilter";
 import AddUserModal from "../AddUserModal";
-import UpdateUserModal from "../UpdateUserModal";
+import EditUserModal from "../EditUserModal";
 import toast, { Toaster } from "react-hot-toast";
 
 // Function to fetch users from the server
@@ -211,7 +211,7 @@ export default function UserListClient({ initialUsers }: UserListClientProps) {
         id: "actions",
         cell: ({ row }) => (
           <div>
-            <UpdateUserModal
+            <EditUserModal
               userData={row.original}
               updateUser={updateUserMutation as any}
             />

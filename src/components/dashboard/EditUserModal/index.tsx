@@ -28,17 +28,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import toast from "react-hot-toast";
 
-// Define the interface for UpdateUserModalProps
-interface UpdateUserModalProps {
+// Define the interface for EditUserModalProps
+interface EditUserModalProps {
   updateUser: UseMutationResult<any, unknown, UserFormData, unknown>; // updateUser mutation result
   userData: User; // user data to be updated
 }
 
-// Define the UpdateUserModal component
-export default function UpdateUserModal({
+// Define the EditUserModal component
+export default function EditUserModal({
   updateUser,
   userData,
-}: UpdateUserModalProps) {
+}: EditUserModalProps) {
   // State for modal visibility, editing status and password
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState<{
@@ -154,7 +154,7 @@ export default function UpdateUserModal({
     setShowPassword(!showPassword);
   };
 
-  // Render the UpdateUserModal component
+  // Render the EditUserModal component
   return (
     <Dialog
       open={isOpen}
@@ -164,24 +164,25 @@ export default function UpdateUserModal({
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="mr-2">
+        <Button variant="outline" size="sm" className="mr-2 bg-yellow-100 hover:bg-yellow-200">
           Edit
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-white rounded-lg p-4 shadow-md">
         <DialogHeader>
-          <DialogTitle>Update User</DialogTitle>
+          <DialogTitle className="text-lg font-semibold text-indigo-900">Update User</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Form fields for user data */}
           <div>
-            <Label htmlFor="first_name">First Name</Label>
+            <Label htmlFor="first_name" className="text-indigo-900">First Name</Label>
             <Input
               id="first_name"
               {...control.register("first_name")}
               defaultValue={userData.first_name}
               readOnly={!isEditing.first_name}
               onClick={() => handleInputClick("first_name")}
+              className="border-indigo-300 focus:border-orange-500"
             />
             {errors.first_name && (
               <p className="text-red-500">
@@ -190,13 +191,14 @@ export default function UpdateUserModal({
             )}
           </div>
           <div>
-            <Label htmlFor="last_name">Last Name</Label>
+            <Label htmlFor="last_name" className="text-indigo-900">Last Name</Label>
             <Input
               id="last_name"
               {...control.register("last_name")}
               defaultValue={userData.last_name}
               readOnly={!isEditing.last_name}
               onClick={() => handleInputClick("last_name")}
+              className="border-indigo-300 focus:border-orange-500"
             />
             {errors.last_name && (
               <p className="text-red-500">
@@ -205,7 +207,7 @@ export default function UpdateUserModal({
             )}
           </div>
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-indigo-900">Email</Label>
             <Input
               id="email"
               type="email"
@@ -213,6 +215,7 @@ export default function UpdateUserModal({
               defaultValue={userData.email}
               readOnly={!isEditing.email}
               onClick={() => handleInputClick("email")}
+              className="border-indigo-300 focus:border-orange-500"
             />
             {errors.email && (
               <p className="text-red-500">
@@ -221,7 +224,7 @@ export default function UpdateUserModal({
             )}
           </div>
           <div>
-            <Label htmlFor="alternate_email">Alternate Email</Label>
+            <Label htmlFor="alternate_email" className="text-indigo-900">Alternate Email</Label>
             <Input
               id="alternate_email"
               type="email"
@@ -229,6 +232,7 @@ export default function UpdateUserModal({
               defaultValue={userData.alternate_email || ""}
               readOnly={!isEditing.alternate_email}
               onClick={() => handleInputClick("alternate_email")}
+              className="border-indigo-300 focus:border-orange-500"
             />
             {errors.alternate_email && (
               <p className="text-red-500">
@@ -237,7 +241,7 @@ export default function UpdateUserModal({
             )}
           </div>
           <div>
-            <Label htmlFor="age">Age</Label>
+            <Label htmlFor="age" className="text-indigo-900">Age</Label>
             <Input
               id="age"
               type="number"
@@ -245,6 +249,7 @@ export default function UpdateUserModal({
               defaultValue={userData.age}
               readOnly={!isEditing.age}
               onClick={() => handleInputClick("age")}
+              className="border-indigo-300 focus:border-orange-500"
             />
             {errors.age && (
               <p className="text-red-500">
@@ -253,7 +258,7 @@ export default function UpdateUserModal({
             )}
           </div>
           <div>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-indigo-900">Password</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -263,16 +268,17 @@ export default function UpdateUserModal({
                 placeholder="Click to edit password"
                 onClick={handlePasswordClick}
                 onChange={(e) => setPassword(e.target.value)}
+                className="border-indigo-300 focus:border-orange-500"
               />
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center "
               >
                 {showPassword ? (
-                  <EyeOff className="h-4 w-4 text-gray-500" />
+                  <EyeOff className="h-4 w-4 text-indigo-500" />
                 ) : (
-                  <Eye className="h-4 w-4 text-gray-500" />
+                  <Eye className="h-4 w-4 text-indigo-500" />
                 )}
               </button>
             </div>
@@ -282,7 +288,9 @@ export default function UpdateUserModal({
               </p>
             )}
           </div>
-          <Button type="submit">Update User</Button>
+          <Button type="submit" className="bg-orange-500 hover:bg-orange-700 text-white">
+            Update User
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
